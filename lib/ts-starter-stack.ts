@@ -4,11 +4,14 @@ import { Bucket } from 'aws-cdk-lib/aws-s3';
 import {Fn} from 'aws-cdk-lib';
 
 export class TsStarterStack extends cdk.Stack {
+
+  public coolBucket: Bucket;
+
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
     const suffix = this.initializeSuffix();
-    const bucket = new Bucket(this, 'TsBucket', {
+    this.coolBucket = new Bucket(this, 'TsBucket', {
       bucketName: `tarun-bucket-${suffix}`,
       lifecycleRules:[
         {
@@ -19,7 +22,7 @@ export class TsStarterStack extends cdk.Stack {
 
     new cdk.CfnOutput(this, 
       'TsBucketOutput', {
-        value:bucket.bucketName
+        value:this.coolBucket.bucketName
       })
   }
 
